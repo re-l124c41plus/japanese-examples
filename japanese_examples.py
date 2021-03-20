@@ -145,7 +145,7 @@ def find_examples(expression, maxitems):
                 example = content[j].split("#ID=")[0][3:]
                 if dictionary == dictionaries[0]:
                     example = example + " {CHECKED}"
-                example = example.replace(expression,'<FONT COLOR="#ff0000">%s</FONT>' %expression)
+                example = example.replace(expression,'<span class="expr">%s</span>' %expression)
                 color_example = content[j+1]
                 regexp = r"(?:\(*%s\)*)(?:\([^\s]+?\))*(?:\[\d+\])*\{(.+?)\}" %expression
                 match = re.compile("%s" %regexp).search(color_example)
@@ -153,12 +153,12 @@ def find_examples(expression, maxitems):
                 match_reading = re.search(regexp_reading, color_example)
                 if match:
                     expression_bis = match.group(1)
-                    example = example.replace(expression_bis,'<FONT COLOR="#ff0000">%s</FONT>' %expression_bis)
+                    example = example.replace(expression_bis,'<span class="expr">%s</span>' %expression_bis)
                 elif match_reading:
                     expression_bis = match_reading.group(1)
-                    example = example.replace(expression_bis,'<FONT COLOR="#ff0000">%s</FONT>' %expression_bis)
+                    example = example.replace(expression_bis,'<span class="expr">%s</span>' %expression_bis)
                 else:
-                    example = example.replace(expression,'<FONT COLOR="#ff0000">%s</FONT>' %expression)
+                    example = example.replace(expression,'<span class="expr">%s</span>' %expression)
                 examples.append(tuple(example.split('\t')))
         else:
             match = re.search(u"(.*?)[／/]", expression)
@@ -205,7 +205,7 @@ def find_examples_multiple(n, maxitems, modelname=""):
         res = find_examples(n[fld], maxitems)
         examples.extend(res)
 
-    combined_examples = ["%s<br>%s" % x for x in examples]
+    combined_examples = ["<div class=\"ex_sentence\">%s<br><span class=\"eng_ex\">%s</span></div>" % x for x in examples]
 
     if examples:
         japanese_examples, english_examples = zip(*examples)
